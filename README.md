@@ -30,7 +30,7 @@ This is the backend Restful Api built for the Coacher application.
 
 ## Installation
 
-To install this application make sure you have [node](https://nodejs.org/en/) and [yarn](https://yarnpkg.com/getting-started/install) installed on your machine. After this is done you need to make sure you are in the root of the file directory and execute the command directly bellow
+To install this application make sure you have [node](https://nodejs.org/en/) and [yarn](https://yarnpkg.com/getting-started/install) installed on your machine. You will also need to edit the name of the .env-example file to .env. After all this is done you need to make sure you are in the root of the file directory and execute the command directly bellow
 
 ```bash
 $ yarn install
