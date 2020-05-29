@@ -22,14 +22,18 @@
   "dependencies": {
     "@nestjs/common": "^7.0.1",
     "@nestjs/core": "^7.0.1",
+    "@nestjs/mongoose": "^7.0.1",
     "@nestjs/platform-express": "^7.0.1",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
     "env-cmd": "^10.1.0",
+    "mongodb": "^3.5.8",
+    "mongoose": "^5.9.16",
     "nodemon": "^2.0.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^6.5.4"
+    "rxjs": "^6.5.4",
+    "typeorm": "^0.2.25"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.0.0",
