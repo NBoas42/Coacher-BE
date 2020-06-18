@@ -11,4 +11,11 @@ export class ConversationService {
     @InjectModel('Conversation')
     private conversationModel: Model<Conversation>,
   ) {}
+
+  async create(createConversationDto: CreateConversationDto): Promise<Conversation> {
+    const createdCat = new this.conversationModel(createConversationDto);
+    return createdCat.save();
+  }
+
+
 }
