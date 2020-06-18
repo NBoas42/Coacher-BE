@@ -4,3 +4,11 @@ import { Conversation } from '../model/conversation.interface';
 import { CreateConversationDto } from '../dto/createConversation.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from "mongoose"
+
+@Injectable()
+export class ConversationService {
+  constructor(
+    @InjectModel('Conversation')
+    private conversationModel: Model<Conversation>,
+  ) {}
+}
