@@ -13,8 +13,8 @@ export class ConversationService {
   ) {}
 
   async create(createConversationDto: CreateConversationDto): Promise<Conversation> {
-    const createdCat = new this.conversationModel(createConversationDto);
-    return createdCat.save();
+    const createdConv = new this.conversationModel(createConversationDto);
+    return createdConv.save();
   }
 
 
