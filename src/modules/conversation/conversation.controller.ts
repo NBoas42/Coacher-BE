@@ -9,7 +9,6 @@ export class ConversationController {
 
 //insert
 
-
 //delete
 
 //create
@@ -17,6 +16,12 @@ export class ConversationController {
 //update
 
 //get
+@Get("/:id")
+getConversationById(
+  @Param("id") id
+) {
+  return this.conversationService.findById(id);
+}
 
 
 }
