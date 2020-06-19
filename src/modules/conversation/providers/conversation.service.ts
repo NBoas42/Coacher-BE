@@ -17,5 +17,9 @@ export class ConversationService {
     return createdConv.save();
   }
 
+  async findById(id): Promise<Conversation[]> {
+    return this.conversationModel.findById(id);
+  }
+
 
 }
