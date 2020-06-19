@@ -29,11 +29,13 @@ export class ConversationService {
   }
 
   //insert
-  //async insert(id): Promise<Conversationp[]>{
+  //async insert(id): Promise<Conversation[]> {
   // }
 
   //delete
-  //async delete(id): Promise<Conversationp[]< {
+  //async deleteConversation(id): Promise<Conversation[]> {
+  //  delete this.conversationModel.deleteConversation(id);
+  //  return this.conversationModel.deleteConversation(id);
   //  }
 
 
