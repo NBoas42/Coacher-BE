@@ -12,6 +12,10 @@ export class ConversationController {
 //delete
 
 //create
+@Post()
+  create(@Body() createConversationDto: CreateConversationDto) {
+    return this.conversationService.create(createConversationDto);
+  }
 
 //update
 
