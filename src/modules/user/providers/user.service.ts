@@ -32,4 +32,10 @@ export class UserService {
     });
    return userToUpdate.save();
   }
+
+  async deleteById(id):Promise<User>{
+    return this.userModel.findOneAndDelete({
+      _id:id
+    });
+  }
 }
