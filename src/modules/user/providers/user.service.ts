@@ -21,7 +21,15 @@ export class UserService {
     return this.userModel.find().exec();
   }
 
-  async findById(id): Promise<User[]> {
+  async findById(id): Promise<User> {
     return this.userModel.findById(id);
+  }
+
+  async patchById(id, dto):Promise<User>{
+    let userToUpdate = this.userModel.findById(id);
+    Object.keys(dto).forEach(key =>{
+      userToUpdate[key] = dto[key];
+    });
+   return userToUpdate.save();
   }
 }

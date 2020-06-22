@@ -1,5 +1,11 @@
+import { USER_TYPE } from "../model/user.interface";
+
 export class CreateUserDto {
-    name: string;
-    age: number;
-    breed: string;
+   type: USER_TYPE;
+   firstName: string;
+   lastName:string;
+   email: string;
+   phoneNumber:string;
+   website:string;
+   about:string;
   }
