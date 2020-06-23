@@ -22,14 +22,17 @@ export class ConversationService {
   async findById(id): Promise<Conversation[]> {
     return this.conversationModel.findById(id);
   }
+  async findAll(): Promise<Conversation[]> {
+    return this.conversationModel.find();
+  }
 
-  //update (similar as create)
-  async update(id,updateconversationdto): Promise<Conversation[]> {
-   let conversationToBeUpdated = this.conversationModel.findById(id);
-   conversationToBeUpdated.overwrite({
-     ...conversationToBeUpdated
-   });
-
+  //update (patchid)
+  async patchById(id, dto):Promise<Conversation>{
+    let conversationToUpdate =  await this.conversationModel.findById(id).exec();
+    Object.keys(dto).forEach(key =>{
+      conversationToUpdate[key] = dto[key];
+    });
+   return conversationToUpdate.save();
   }
 
   //insert
@@ -37,10 +40,10 @@ export class ConversationService {
   // }
 
   //delete
-  //async deleteConversation(id): Promise<Conversation[]> {
-  //  delete this.conversationModel.deleteConversation(id);
-  //  return this.conversationModel.deleteConversation(id);
-  //  }
-
+  async deleteById(id):Promise<Conversation>{
+    return this.conversationModel.findOneAndDelete({
+      _id:id
+    });
+  }
 
 }
