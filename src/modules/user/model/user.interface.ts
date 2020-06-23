@@ -3,7 +3,8 @@ import { IsDefined } from 'class-validator';
 
 export enum USER_TYPE {
   COACH="COACH",
-  COACHEE="COACHEE"
+  COACHEE="COACHEE",
+  ADMIN="ADMIN",
 }
 
 export interface User extends Document {

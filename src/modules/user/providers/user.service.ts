@@ -18,7 +18,7 @@ export class UserService {
   }
 
   async findAll(): Promise<User[]> {
-    return this.userModel.find().exec();
+    return this.userModel.find();
   }
 
   async findById(id): Promise<User> {
@@ -26,7 +26,7 @@ export class UserService {
   }
 
   async patchById(id, dto):Promise<User>{
-    let userToUpdate = this.userModel.findById(id);
+    let userToUpdate =  await this.userModel.findById(id).exec();
     Object.keys(dto).forEach(key =>{
       userToUpdate[key] = dto[key];
     });
