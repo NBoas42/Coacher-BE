@@ -8,7 +8,7 @@ import { UserModule } from './user/user.module';
 @Module({
   imports: [
     ConfigModule,
-    MongooseModule.forRoot('mongodb://localhost/coacher'),
+    MongooseModule.forRoot(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0-2c3qk.mongodb.net/`,{dbName:process.env.DB_NAME}),
     HealthCheckModule,
     UserModule]
 })
