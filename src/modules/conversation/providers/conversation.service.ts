@@ -35,10 +35,6 @@ export class ConversationService {
    return conversationToUpdate.save();
   }
 
-  //insert
-  //async insert(id): Promise<Conversation[]> {
-  // }
-
   //delete
   async deleteById(id):Promise<Conversation>{
     return this.conversationModel.findOneAndDelete({
