@@ -23,9 +23,13 @@ export class ConversationService {
     return this.conversationModel.findById(id);
   }
 
-  //update
-  async update(id): Promise<Conversation[]> {
-    return this.conversationModel.update(id);
+  //update (similar as create)
+  async update(id,updateconversationdto): Promise<Conversation[]> {
+   let conversationToBeUpdated = this.conversationModel.findById(id);
+   conversationToBeUpdated.overwrite({
+     ...conversationToBeUpdated
+   });
+
   }
 
   //insert

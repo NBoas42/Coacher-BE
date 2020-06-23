@@ -1,5 +1,14 @@
+import { IsEnum, IsString, IsDefined, IsOptional } from "class-validator";
+
+
 export class CreateConversationDto {
-    name: string;
-    message: string;
-    time: number;
+
+  @IsString()
+  @IsDefined()
+  title: string;
+
+  @IsString()
+  @IsDefined()
+  subject: string;
+ 
   }
