@@ -25,7 +25,7 @@ deleteConversationById(
 
 //update
 @Patch("/:id")
-patachUserById(
+patachConversationById(
   @Param("id") id,
   @Body(new ValidationPipe()) dto: UpdateConversationDto,
 ){
