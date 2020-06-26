@@ -7,11 +7,11 @@ import { InjectModel } from '@nestjs/mongoose';
 @Injectable()
 export class AddressService {
   constructor(
-    @InjectModel('User')
+    @InjectModel('Address')
     private AddressModel: Model<Address>,
   ) {}
 
-  async create(createAddressDto: CreateAddressDto): Promise<Address> {
+  async create(createAddressDto: CreateAddressDto | string): Promise<Address> {
     const createdAddress = new this.AddressModel(createAddressDto);
     return createdAddress.save();
   }
@@ -28,6 +28,9 @@ export class AddressService {
     // eslint-disable-next-line prefer-const
     let addressToUpdate =  await this.AddressModel.findById(id).exec();
     Object.keys(dto).forEach(key =>{
+      if(key ==="address"){
+
+      }
       addressToUpdate[key] = dto[key];
     });
    return addressToUpdate.save();

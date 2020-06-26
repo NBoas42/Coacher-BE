@@ -1,5 +1,5 @@
 import { Document } from 'mongoose';
-import { IsDefined } from 'class-validator';
+import { Address } from 'cluster';
 
 export enum USER_TYPE {
   COACH="COACH",
@@ -15,4 +15,5 @@ export interface User extends Document {
   readonly phoneNumber:string;
   readonly website:string;
   readonly about:string;
+  readonly address:Address;
 }

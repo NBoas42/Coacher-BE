@@ -1,5 +1,6 @@
 import { USER_TYPE } from "../model/user.interface";
-import { IsEnum, IsString, IsDefined, IsOptional } from "class-validator";
+import { IsEnum, IsString, IsDefined, IsOptional, ValidateNested } from "class-validator";
+import { Address } from "src/modules/address/model/address.interface";
 
 export class CreateUserDto {
    @IsEnum(USER_TYPE)
@@ -29,4 +30,8 @@ export class CreateUserDto {
    @IsString()
    @IsOptional()
    about:string;
+
+   @ValidateNested()
+   @IsOptional()
+   address?: Address|string;
   }

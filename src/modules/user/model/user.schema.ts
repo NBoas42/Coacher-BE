@@ -1,5 +1,4 @@
 import * as mongoose from 'mongoose';
-import { USER_TYPE } from './user.interface';
 
 export const UserSchema = new mongoose.Schema({
    type: String,
@@ -9,4 +8,8 @@ export const UserSchema = new mongoose.Schema({
    phoneNumber:String,
    website:String,
    about:String,
+   address:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref:'Address'
+   }
 });
