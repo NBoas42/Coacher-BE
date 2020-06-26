@@ -1,4 +1,5 @@
 import { Model } from 'mongoose';
+import * as mongoose from 'mongoose';
 import { Injectable, Inject} from '@nestjs/common';
 import { User } from '../model/user.interface';
 import { CreateUserDto } from '../dto/createUser.dto';
@@ -34,17 +35,13 @@ export class UserService {
   }
 
   async patchById(id, dto:UpdateUserDto):Promise<User>{
-    const userToUpdate =  await this.userModel.findById(id).exec();
-    Object.keys(dto).forEach(async key =>{
-      if(key ==="address"){
-        if(userToUpdate.address)await this.AddressService.deleteById(userToUpdate.address._id);
+    if(dto.address){
       const createdAddress = await  this.AddressService.create(dto.address);
-      userToUpdate[key] = createdAddress._id;
-      } else{
-      userToUpdate[key] = dto[key];
-      }
-    });
-   return userToUpdate.save();
+      dto.address = createdAddress._id;
+    }
+    return this.userModel.findOneAndUpdate({_id:mongoose.Types.ObjectId(id)},dto,{
+      upsert:false,
+  }).populate("address").exec();
   }
 
   async deleteById(id):Promise<User>{
