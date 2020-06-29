@@ -1,7 +1,7 @@
 
 import { IsEnum, IsString, IsDefined, IsOptional } from "class-validator";
 
-export class CreateUserDto {
+export class UpdateMessageDto {
 
     @IsString()
     @IsDefined()
