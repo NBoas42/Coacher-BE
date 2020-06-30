@@ -1,5 +1,6 @@
 import { USER_TYPE } from "../model/user.interface";
-import { IsString, IsEnum, IsOptional } from "class-validator";
+import { IsString, IsEnum, IsOptional, IsEmail, ValidateNested } from "class-validator";
+import { Address } from "src/modules/address/model/address.interface";
 
 export class UpdateUserDto {
    @IsEnum(USER_TYPE)
@@ -14,7 +15,7 @@ export class UpdateUserDto {
    @IsOptional()
    lastName?:string;
 
-   @IsString()
+   @IsEmail()
    @IsOptional()
    email?: string;
 
@@ -29,4 +30,8 @@ export class UpdateUserDto {
    @IsString()
    @IsOptional()
    about?:string;
+
+   @ValidateNested()
+   @IsOptional()
+   address?:Address|string;
   } 
