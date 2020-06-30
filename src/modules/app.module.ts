@@ -4,6 +4,7 @@ import { ConfigModule } from "./configuration/config.module"
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { AddressModule } from './address/address.module';
+import { ConversationModule } from './conversation/conversation.module';
 
 
 @Module({
@@ -12,6 +13,7 @@ import { AddressModule } from './address/address.module';
     MongooseModule.forRoot(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0-2c3qk.mongodb.net/`,{dbName:process.env.DB_NAME}),
     HealthCheckModule,
     UserModule,
-    AddressModule]
+    AddressModule,
+    ConversationModule]
 })
 export class AppModule { }
