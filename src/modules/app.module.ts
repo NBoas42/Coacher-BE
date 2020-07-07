@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { AddressModule } from './address/address.module';
 import { ConversationModule } from './conversation/conversation.module';
+import { MessageModule } from './message/message.module';
 
 
 @Module({
@@ -14,6 +15,7 @@ import { ConversationModule } from './conversation/conversation.module';
     HealthCheckModule,
     UserModule,
     AddressModule,
-    ConversationModule]
+    ConversationModule,
+    MessageModule]
 })
 export class AppModule { }
