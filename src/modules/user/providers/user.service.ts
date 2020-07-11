@@ -14,12 +14,12 @@ export class UserService {
   constructor(
     @InjectModel('User')
     private userModel: Model<User>,
-    private AddressService: AddressService,
+    private addressService: AddressService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     if(createUserDto.address){
-      const createdAddress = await  this.AddressService.create(createUserDto.address);
+      const createdAddress = await  this.addressService.create(createUserDto.address);
       createUserDto.address = createdAddress._id;
     }
     const createdUser = new this.userModel(createUserDto);
@@ -36,7 +36,7 @@ export class UserService {
 
   async patchById(id, dto:UpdateUserDto):Promise<User>{
     if(dto.address){
-      const createdAddress = await  this.AddressService.create(dto.address);
+      const createdAddress = await  this.addressService.create(dto.address);
       dto.address = createdAddress._id;
     }
     return this.userModel.findOneAndUpdate({_id:mongoose.Types.ObjectId(id)},dto,{

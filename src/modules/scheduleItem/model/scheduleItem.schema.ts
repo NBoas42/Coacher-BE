@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 
-export const ScheduleSchema = new mongoose.Schema({
+export const ScheduleItemSchema = new mongoose.Schema({
    name: { type: String },
    description: {
       type: String,

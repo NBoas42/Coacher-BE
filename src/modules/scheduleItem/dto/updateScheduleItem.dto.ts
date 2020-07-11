@@ -1,6 +1,6 @@
-import { IsString, IsOptional,IsDate, IsBoolean } from "class-validator";
+import { IsString, IsOptional, IsBoolean, IsDateString } from "class-validator";
 
-export class UpdateScheduleDto {
+export class UpdateScheduleItemDto {
    @IsString()
    @IsOptional()
    name?: string;
@@ -9,11 +9,11 @@ export class UpdateScheduleDto {
    @IsOptional()
    description?:string;
 
-   @IsDate()
+   @IsDateString()
    @IsOptional()
    startDate?: Date;
 
-   @IsString()
+   @IsDateString()
    @IsOptional()
    endDate?:Date;
 

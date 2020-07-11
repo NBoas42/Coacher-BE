@@ -1,6 +1,6 @@
-import { IsString, IsDefined, IsOptional, IsDate, IsBoolean } from "class-validator";
+import { IsString, IsDefined, IsOptional, IsBoolean, IsDateString } from "class-validator";
 
-export class CreateScheduleDto {
+export class CreateScheduleItemDto {
 
    @IsString()
    @IsDefined()
@@ -10,11 +10,11 @@ export class CreateScheduleDto {
    @IsOptional()
    description:string;
 
-   @IsDate()
+   @IsDateString()
    @IsDefined()
    startDate: Date;
 
-   @IsDate()
+   @IsDateString()
    @IsDefined()
    endDate:Date;
 
