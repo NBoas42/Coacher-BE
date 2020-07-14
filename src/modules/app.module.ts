@@ -4,7 +4,7 @@ import { ConfigModule } from "./configuration/config.module"
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { AddressModule } from './address/address.module';
-import { ScheduleItemModule } from './schedule/scheduleItem.module';
+import { ScheduleItemModule } from './scheduleItem/scheduleItem.module';
 
 
 @Module({

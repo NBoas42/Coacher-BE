@@ -11,5 +11,9 @@ export const UserSchema = new mongoose.Schema({
    address:{
       type: mongoose.Schema.Types.ObjectId,
       ref:'Address'
-   }
+   },
+   schedule:[{
+      type: mongoose.Schema.Types.ObjectId,
+      ref:'ScheduleItem'
+   }]
 });

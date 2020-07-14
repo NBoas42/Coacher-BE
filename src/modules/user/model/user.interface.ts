@@ -1,5 +1,6 @@
 import { Document } from 'mongoose';
 import { Address } from 'cluster';
+import { ScheduleItem } from 'src/modules/scheduleItem/model/scheduleItem.interface';
 
 export enum USER_TYPE {
   COACH="COACH",
@@ -16,4 +17,5 @@ export interface User extends Document {
   readonly website:string;
   readonly about:string;
   readonly address:Address;
+  readonly schedule:ScheduleItem[];
 }

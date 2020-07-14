@@ -1,6 +1,7 @@
 import { USER_TYPE } from "../model/user.interface";
 import { IsString, IsEnum, IsOptional, IsEmail, ValidateNested } from "class-validator";
 import { Address } from "src/modules/address/model/address.interface";
+import { ScheduleItem } from "src/modules/scheduleItem/model/scheduleItem.interface";
 
 export class UpdateUserDto {
    @IsEnum(USER_TYPE)
@@ -33,5 +34,9 @@ export class UpdateUserDto {
 
    @ValidateNested()
    @IsOptional()
-   address?:Address|string;
+   address?:Address;
+
+   @ValidateNested()
+   @IsOptional()
+   scheduleItems?:ScheduleItem[];
   } 

@@ -9,5 +9,6 @@ import {ScheduleItemService} from "./providers/scheduleItem.service";
 ],
   controllers: [ScheduleController],
   providers: [ScheduleItemService],
+  exports: [ScheduleItemService],
 })
 export class ScheduleItemModule{}
