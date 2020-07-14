@@ -1,52 +1,78 @@
 import { Model } from 'mongoose';
 import * as mongoose from 'mongoose';
-import { Injectable, Inject} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { User } from '../model/user.interface';
 import { CreateUserDto } from '../dto/createUser.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Address } from 'src/modules/address/model/address.interface';
 import { UpdateUserDto } from '../dto/updateUser.dto';
 import { AddressService } from 'src/modules/address/providers/address.service';
-import { CreateAddressDto } from 'src/modules/address/dto/createAddress.dto';
+import { ScheduleItemService } from 'src/modules/scheduleItem/providers/scheduleItem.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel('User')
     private userModel: Model<User>,
-    private AddressService: AddressService,
-  ) {}
+    private addressService: AddressService,
+    private scheduleItemService: ScheduleItemService,
+  ) { }
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
-    if(createUserDto.address){
-      const createdAddress = await  this.AddressService.create(createUserDto.address);
-      createUserDto.address = createdAddress._id;
+  async create(dto: CreateUserDto): Promise<User> {
+    const userInsertObject = {
+      ...dto,
+      address: "",
     }
-    const createdUser = new this.userModel(createUserDto);
-    return createdUser.save();
+    if (this.addressService.validateAddress(dto.address)) {
+      const createdAddress = await this.addressService.create(dto.address);
+      userInsertObject.address = createdAddress._id;
+    }
+    const createdUser = new this.userModel(userInsertObject);
+    await createdUser.save();
+    return this.userModel.findById(createdUser._id)
+    .populate("address")
+    .populate("scheduleItems");
   }
 
   async findAll(): Promise<User[]> {
-    return this.userModel.find().populate("address");
+    return this.userModel.find()
+      .populate("address")
+      .populate("scheduleItems");
   }
 
   async findById(id): Promise<User> {
-    return this.userModel.findById(id).populate("address");
+    return this.userModel.findById(id)
+      .populate("address")
+      .populate("scheduleItems");
   }
 
-  async patchById(id, dto:UpdateUserDto):Promise<User>{
-    if(dto.address){
-      const createdAddress = await  this.AddressService.create(dto.address);
-      dto.address = createdAddress._id;
+  async patchById(id, dto: UpdateUserDto): Promise<User> {
+    const userInsertObject = {
+      ...dto,
+      address: "",
     }
-    return this.userModel.findOneAndUpdate({_id:mongoose.Types.ObjectId(id)},dto,{
-      upsert:false,
-  }).populate("address").exec();
+    if (this.addressService.validateAddress(dto.address)) {
+      const createdAddress = await this.addressService.create(dto.address);
+      userInsertObject.address = createdAddress._id;
+    }
+    if (dto.scheduleItems) {
+      const user = await this.userModel.findById(id).execute();
+      const createdScheduleIds = [];
+      dto.scheduleItems.forEach(async (scheduleItem) => {
+        const createdScheduleItem = await this.scheduleItemService.create(scheduleItem);
+        createdScheduleIds.push(createdScheduleItem._id);
+      });
+      dto.scheduleItems = user.scheduleItems.concat(createdScheduleIds);
+    }
+    return this.userModel.findOneAndUpdate({ _id: mongoose.Types.ObjectId(id) }, userInsertObject, {
+      upsert: false,
+    })
+      .populate("address")
+      .populate("scheduleItems");
   }
 
-  async deleteById(id):Promise<User>{
+  async deleteById(id): Promise<User> {
     return this.userModel.findOneAndDelete({
-      _id:id
+      _id: id
     });
   }
 }
