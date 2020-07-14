@@ -1,6 +1,6 @@
 import { Model } from 'mongoose';
 import * as mongoose from 'mongoose';
-import { Injectable} from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus} from '@nestjs/common';
 import { ScheduleItem } from '../model/scheduleItem.interface';
 import { CreateScheduleItemDto } from '../dto/createScheduleItem.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -36,5 +36,12 @@ export class ScheduleItemService {
     return this.scheduleModel.findOneAndDelete({
       _id:id
     });
+  }
+
+  validateScheduleItem(scheduleItem:ScheduleItem){
+    if(!(scheduleItem.startDate ||
+      scheduleItem.endDate ||
+      scheduleItem.name)) throw new HttpException('BAD_REQUEST: Address Not Valid', HttpStatus.BAD_REQUEST);
+    return true
   }
 }
