@@ -1,7 +1,7 @@
 import { Document } from 'mongoose';
-import { User } from 'src/modules/user/model/user.interface';
-import { ScheduleItem } from 'src/modules/scheduleItem/model/scheduleItem.interface';
-import { Address } from 'src/modules/address/model/address.interface';
+import { User } from 'src/modules/user/model/user.class';
+import { ScheduleItem } from 'src/modules/scheduleItem/model/scheduleItem.class';
+import { Address } from 'src/modules/address/model/address.class';
 
 export enum PRICE_TYPE {
 MONTHLY="MONTHLY",
@@ -11,7 +11,7 @@ FREE="FREE",
 }
 
 
-export interface Class extends Document {
+export class Class extends Document {
   readonly _id: string;
   readonly name: string;
   readonly description:string;

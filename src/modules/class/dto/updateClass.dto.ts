@@ -1,28 +1,42 @@
-import { IsString, IsOptional, IsBoolean, IsDateString } from "class-validator";
+import { IsString, IsOptional, IsBoolean, IsDateString, IsDefined, IsNumber, IsEnum } from "class-validator";
+import { ScheduleItem } from "src/modules/scheduleItem/model/scheduleItem.class";
+import { PRICE_TYPE } from "../model/class.class";
+import { User } from "src/modules/user/model/user.class";
+import { CreateAddressDto } from "src/modules/address/dto/createAddress.dto";
+import { Address } from "src/modules/address/model/address.class";
+import { ApiPropertyOptional } from "@nestjs/swagger";
 
 export class UpdateClassDto {
+   @ApiPropertyOptional()
    @IsString()
    @IsOptional()
    name?: string;
 
+   @ApiPropertyOptional()
    @IsString()
    @IsOptional()
-   description?:string;
+   description?: string;
 
-   @IsDateString()
+   @ApiPropertyOptional()
    @IsOptional()
-   startDate?: Date;
+   scheduleItems?:ScheduleItem[];
 
-   @IsDateString()
+   @ApiPropertyOptional()
    @IsOptional()
-   endDate?:Date;
+   location?:Address|string;
 
-   @IsBoolean()
+   @ApiPropertyOptional()
    @IsOptional()
-   available?:boolean;
+   @IsNumber()
+   price?:number;
    
-   @IsBoolean()
+   @ApiPropertyOptional()
+   @IsEnum(PRICE_TYPE)
    @IsOptional()
-   repeates?:boolean;
+   priceType?:PRICE_TYPE;
+
+   @ApiPropertyOptional()
+   @IsOptional()
+   participants?:string[];
    
   } 

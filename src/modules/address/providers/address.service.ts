@@ -1,6 +1,6 @@
 import { Model } from 'mongoose';
 import { Injectable, BadRequestException, HttpException, HttpStatus} from '@nestjs/common';
-import { Address } from '../model/address.interface';
+import { Address } from '../model/address.class';
 import { CreateAddressDto } from '../dto/createAddress.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { AddressController } from '../address.controller';

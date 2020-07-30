@@ -4,7 +4,10 @@ export const UserSchema = new mongoose.Schema({
    type: String,
    firstName: String,
    lastName:String,
-   email: String,
+   email: {
+      type: String,
+      unique:true
+   },
    phoneNumber:String,
    website:String,
    about:String,
@@ -12,8 +15,12 @@ export const UserSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref:'Address'
    },
-   schedule:[{
+   scheduleItems:[{
       type: mongoose.Schema.Types.ObjectId,
       ref:'ScheduleItem'
+   }],
+   classes:[{
+      type: mongoose.Schema.Types.ObjectId,
+      ref:'Class'
    }]
 });

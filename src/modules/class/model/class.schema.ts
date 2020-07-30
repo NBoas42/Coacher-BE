@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { PRICE_TYPE } from './class.interface';
+import { PRICE_TYPE } from './class.class';
 
 export const ClassSchema = new mongoose.Schema({
    name: { type: String },
