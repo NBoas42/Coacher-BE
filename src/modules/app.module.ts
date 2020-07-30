@@ -13,9 +13,9 @@ import { ClassModule } from './class/class.module';
     ConfigModule,
     MongooseModule.forRoot(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0-2c3qk.mongodb.net/`, { dbName: process.env.DB_NAME }),
     HealthCheckModule,
-    ClassModule,
     UserModule,
     AddressModule,
-    ScheduleItemModule,]
+    ScheduleItemModule,
+    ClassModule,]
 })
 export class AppModule { }

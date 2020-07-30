@@ -10,9 +10,9 @@ import { ScheduleItemModule } from '../scheduleItem/scheduleItem.module';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: 'Class', schema: ClassSchema }]),
-    forwardRef(() => UserModule),
     AddressModule,
-    ScheduleItemModule],
+    ScheduleItemModule,
+    forwardRef(() => UserModule),],
   controllers: [ClassController],
   providers: [ClassService],
   exports: [ClassService],

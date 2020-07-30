@@ -5,7 +5,7 @@ import { ValidationPipe } from 'src/utils/validation.pipe';
 import { UpdateClassDto } from './dto/updateClass.dto';
 import { ApiOkResponse } from '@nestjs/swagger';
 
-@Controller("schedule_item")
+@Controller("class")
 export class ClassController {
   constructor(private readonly classService: ClassService) {}
 
