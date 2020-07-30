@@ -1,12 +1,13 @@
 import { Model } from 'mongoose';
 import * as mongoose from 'mongoose';
-import { Injectable } from '@nestjs/common';
-import { User } from '../model/user.interface';
+import { Injectable, BadRequestException, Inject, forwardRef, NotFoundException } from '@nestjs/common';
+import { User } from '../model/user.class';
 import { CreateUserDto } from '../dto/createUser.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { UpdateUserDto } from '../dto/updateUser.dto';
 import { AddressService } from 'src/modules/address/providers/address.service';
 import { ScheduleItemService } from 'src/modules/scheduleItem/providers/scheduleItem.service';
+import { ClassService } from 'src/modules/class/providers/class.service';
 
 @Injectable()
 export class UserService {
@@ -15,22 +16,29 @@ export class UserService {
     private userModel: Model<User>,
     private addressService: AddressService,
     private scheduleItemService: ScheduleItemService,
+    @Inject(forwardRef(() =>ClassService))
+    private classService:ClassService
   ) { }
 
   async create(dto: CreateUserDto): Promise<User> {
-    const userInsertObject = {
-      ...dto,
-      address: "",
+    try {
+      const userInsertObject = {
+        ...dto,
+        address: "",
+      }
+      if (dto.address) {
+        const createdAddress = await this.addressService.create(dto.address);
+        userInsertObject.address = createdAddress._id;
+      }
+      const createdUser = new this.userModel(userInsertObject);
+      await createdUser.save();
+      return this.userModel.findById(createdUser._id)
+        .populate("address")
+        .populate("scheduleItems");
+    } catch (error) {
+      console.log(error.message);
+      throw new BadRequestException(error.message);
     }
-    if (this.addressService.validateAddress(dto.address)) {
-      const createdAddress = await this.addressService.create(dto.address);
-      userInsertObject.address = createdAddress._id;
-    }
-    const createdUser = new this.userModel(userInsertObject);
-    await createdUser.save();
-    return this.userModel.findById(createdUser._id)
-    .populate("address")
-    .populate("scheduleItems");
   }
 
   async findAll(): Promise<User[]> {
@@ -45,25 +53,45 @@ export class UserService {
       .populate("scheduleItems");
   }
 
+  async findByEmail(email:string): Promise<User> {
+    console.log("hit");
+    const result =  await this.userModel.findOne({
+      email
+    })
+      .populate("address")
+      .populate("scheduleItems");
+      console.log(result);
+      if(!result) throw new NotFoundException(`Account With Email Address ${email} was not found`);
+      return result;
+  }
+
   async patchById(id, dto: UpdateUserDto): Promise<User> {
-    const userInsertObject = {
-      ...dto,
-      address: "",
-    }
-    if (this.addressService.validateAddress(dto.address)) {
+
+    if (dto.address) {
+      //To Do Delete Previous Address if one previously Exists
       const createdAddress = await this.addressService.create(dto.address);
-      userInsertObject.address = createdAddress._id;
+      dto.address = createdAddress._id;
     }
+
     if (dto.scheduleItems) {
-      const user = await this.userModel.findById(id).execute();
+      const user = await this.userModel.findById(id);
       const createdScheduleIds = [];
-      dto.scheduleItems.forEach(async (scheduleItem) => {
+      for (const scheduleItem of dto.scheduleItems) {
         const createdScheduleItem = await this.scheduleItemService.create(scheduleItem);
         createdScheduleIds.push(createdScheduleItem._id);
-      });
-      dto.scheduleItems = user.scheduleItems.concat(createdScheduleIds);
+      }
+      if (user.scheduleItems.length > 0) {
+        dto.scheduleItems = user.scheduleItems.concat(createdScheduleIds);
+      } else {
+        dto.scheduleItems = createdScheduleIds;
+      }
     }
-    return this.userModel.findOneAndUpdate({ _id: mongoose.Types.ObjectId(id) }, userInsertObject, {
+
+    if(dto.class){
+      this.classService.addUserReference(dto.class,id);
+    }
+
+    return this.userModel.findOneAndUpdate({ _id: mongoose.Types.ObjectId(id) }, dto, {
       upsert: false,
     })
       .populate("address")
@@ -74,5 +102,16 @@ export class UserService {
     return this.userModel.findOneAndDelete({
       _id: id
     });
+  }
+
+  async addClassReference(userId,classId){
+    await this.userModel.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(userId) },
+      {$push:{
+        classes:classId
+      }},
+      {
+        upsert: false,
+      });
   }
 }

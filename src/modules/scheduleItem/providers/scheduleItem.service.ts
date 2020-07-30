@@ -1,7 +1,7 @@
 import { Model } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { Injectable, HttpException, HttpStatus} from '@nestjs/common';
-import { ScheduleItem } from '../model/scheduleItem.interface';
+import { ScheduleItem } from '../model/scheduleItem.class';
 import { CreateScheduleItemDto } from '../dto/createScheduleItem.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { UpdateScheduleItemDto } from '../dto/updateScheduleItem.dto';

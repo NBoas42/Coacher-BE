@@ -20,14 +20,14 @@ export class AddressController {
 
   @Get("/:id")
   getUserById(
-    @Param("id") id
+    @Param("id") id:string
   ) {
     return this.AddressService.findById(id);
   }
 
   @Patch("/:id")
   patachUserById(
-    @Param("id") id,
+    @Param("id") id:string,
     @Body(new ValidationPipe()) dto: UpdateAddressDto,
   ){
     return this.AddressService.patchById(id,dto);
@@ -35,7 +35,7 @@ export class AddressController {
 
   @Delete("/:id")
   deleteUserById(
-    @Param("id") id
+    @Param("id") id:string
   ) {
     return this.AddressService.findById(id);
   }

@@ -3,39 +3,45 @@ import { ScheduleItemService } from './providers/scheduleItem.service';
 import { CreateScheduleItemDto } from './dto/createScheduleItem.dto';
 import { ValidationPipe } from 'src/utils/validation.pipe';
 import { UpdateScheduleItemDto } from './dto/updateScheduleItem.dto';
+import { ApiOkResponse } from '@nestjs/swagger';
 
 @Controller("schedule_item")
 export class ScheduleController {
   constructor(private readonly scheduleItemService: ScheduleItemService) {}
 
   @Post()
+  @ApiOkResponse({ description: "Returns ScheduleItem Created in the Database" })
   create(@Body(new ValidationPipe()) createScheduleDto: CreateScheduleItemDto) {
     return this.scheduleItemService.create(createScheduleDto);
   }
 
   @Get("/all")
-  getAllUsers() {
+  @ApiOkResponse({ description: "Returns All ScheduleItems" })
+  getAllScheduleItems() {
     return this.scheduleItemService.findAll();
   }
 
   @Get("/:id")
-  getUserById(
-    @Param("id") id
+  @ApiOkResponse({ description: "Returns ScheduleItem With Given Id" })
+  getScheduleItemById(
+    @Param("id") id:string
   ) {
     return this.scheduleItemService.findById(id);
   }
 
   @Patch("/:id")
-  patachUserById(
-    @Param("id") id,
+  @ApiOkResponse({ description: "Updates ScheduleItem With Given Id Updated with Dto Object" })
+  patachScheduleItemById(
+    @Param("id") id:string,
     @Body(new ValidationPipe()) dto: UpdateScheduleItemDto,
   ){
     return this.scheduleItemService.patchById(id,dto);
   }
 
   @Delete("/:id")
-  deleteUserById(
-    @Param("id") id
+  @ApiOkResponse({ description: "Deletes ScheduleItem with Given Id" })
+  deleteScheduleItemById(
+    @Param("id") id:string
   ) {
     return this.scheduleItemService.findById(id);
   }
