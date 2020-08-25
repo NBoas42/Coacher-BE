@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Patch, Delete} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Patch, Delete, Query} from '@nestjs/common';
 import { UserService } from './providers/user.service';
 import { CreateUserDto } from './dto/createUser.dto';
 import { ValidationPipe } from 'src/utils/validation.pipe';
@@ -14,6 +14,15 @@ export class UserController {
   @ApiOkResponse({ description: "Returns proposed name for lots" })
   create(@Body(new ValidationPipe()) createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
+  }
+
+  @Get("/with_query")
+  @ApiOkResponse({ description: "Returns User Object Associated With Given Id" })
+  getUserByName(
+    @Query() searchQuery:UpdateUserDto,
+  ) {
+    const {firstName,lastName} = searchQuery;
+    return this.userService.findLikeName(firstName,lastName);
   }
 
   @Get("/all")
@@ -35,7 +44,7 @@ export class UserController {
   getUserByEmail(
     @Param("email") email:string
   ) {
-    
+
     return this.userService.findByEmail(email);
   }
 

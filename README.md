@@ -32,9 +32,11 @@ This is the backend Restful Api built for the Coacher application.
 
 1. To install this application make sure you have [node](https://nodejs.org/en/) and [yarn](https://yarnpkg.com/getting-started/install) installed on your machine. 
 
-2. You will also need to edit the name of the .env-example file to .env. 
+2.  copy .env-example file to .env. 
 
-3. After 1 and 2 is done you need to make sure you are in the root of the file directory and execute the command directly bellow.
+3. in .env ask an admin for the values for seceret
+
+4. After 1 and 2 is done you need to make sure you are in the root of the file directory and execute the command directly bellow.
 
 ```bash
 $ yarn install
@@ -42,13 +44,7 @@ $ yarn install
 
 ## Running the app
 
-Before running the actual application you will need to start the database with the command below
-
-```bash
-$ TODO
-```
-
-After the database is started execute the command below
+Once all the previous set up is done enter the command bellow
 
 ```bash
 # development

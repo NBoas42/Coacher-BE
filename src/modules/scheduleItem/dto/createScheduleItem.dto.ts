@@ -1,5 +1,5 @@
 import { IsString, IsDefined, IsOptional, IsBoolean, IsDateString } from "class-validator";
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class CreateScheduleItemDto {
 
@@ -8,7 +8,7 @@ export class CreateScheduleItemDto {
    @IsDefined()
    name: string;
 
-   @ApiProperty()
+   @ApiPropertyOptional()
    @IsString()
    @IsOptional()
    description:string;
@@ -23,12 +23,12 @@ export class CreateScheduleItemDto {
    @IsDefined()
    endDate:Date;
 
-   @ApiProperty()
+   @ApiPropertyOptional()
    @IsBoolean()
    @IsOptional()
    available:boolean;
    
-   @ApiProperty()
+   @ApiPropertyOptional()
    @IsBoolean()
    @IsOptional()
    repeates:boolean;

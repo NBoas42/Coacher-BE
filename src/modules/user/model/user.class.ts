@@ -20,6 +20,8 @@ export class User extends Document {
   @ApiProperty()
   readonly email: string;
   @ApiProperty()
+  readonly password: string;
+  @ApiProperty()
   readonly phoneNumber:string;
   @ApiProperty()
   readonly website:string;

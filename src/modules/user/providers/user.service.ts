@@ -8,6 +8,7 @@ import { UpdateUserDto } from '../dto/updateUser.dto';
 import { AddressService } from 'src/modules/address/providers/address.service';
 import { ScheduleItemService } from 'src/modules/scheduleItem/providers/scheduleItem.service';
 import { ClassService } from 'src/modules/class/providers/class.service';
+import { AuthService } from 'src/modules/auth/providers/auth.service';
 
 @Injectable()
 export class UserService {
@@ -16,8 +17,10 @@ export class UserService {
     private userModel: Model<User>,
     private addressService: AddressService,
     private scheduleItemService: ScheduleItemService,
-    @Inject(forwardRef(() =>ClassService))
-    private classService:ClassService
+    @Inject(forwardRef(() => ClassService))
+    private classService: ClassService,
+    @Inject(forwardRef(() => AuthService))
+    private authService :AuthService,
   ) { }
 
   async create(dto: CreateUserDto): Promise<User> {
@@ -26,10 +29,14 @@ export class UserService {
         ...dto,
         address: "",
       }
+
       if (dto.address) {
         const createdAddress = await this.addressService.create(dto.address);
         userInsertObject.address = createdAddress._id;
       }
+
+      userInsertObject.password = await this.authService.hashPassword(dto.password);
+
       const createdUser = new this.userModel(userInsertObject);
       await createdUser.save();
       return this.userModel.findById(createdUser._id)
@@ -53,16 +60,54 @@ export class UserService {
       .populate("scheduleItems");
   }
 
-  async findByEmail(email:string): Promise<User> {
-    console.log("hit");
-    const result =  await this.userModel.findOne({
+  async findLikeName(firstName: string, lastName: string): Promise<User> {
+
+    if (firstName && lastName) {
+      return this.userModel.find({
+        firstName: { "$regex": firstName, "$options": "i" },
+        lastName: { "$regex": lastName, "$options": "i" }
+      })
+        .populate("address")
+        .populate("scheduleItems");
+    } else if (firstName && !lastName) {
+      return this.userModel.find({ 
+        firstName: { "$regex": firstName, "$options": "i" } 
+      })
+        .populate("address")
+        .populate("scheduleItems");
+
+    } else if (!firstName && lastName) {
+      return this.userModel.find({ 
+        lastName: { "$regex": lastName, "$options": "i" } 
+      })
+        .populate("address")
+        .populate("scheduleItems");
+
+    }
+    return this.userModel.find()
+      .populate("address")
+      .populate("scheduleItems");
+  }
+
+  async findByEmail(email: string): Promise<User> {
+    email = email.toLowerCase();
+    const result = await this.userModel.findOne({
       email
     })
       .populate("address")
       .populate("scheduleItems");
-      console.log(result);
-      if(!result) throw new NotFoundException(`Account With Email Address ${email} was not found`);
-      return result;
+    if (!result) throw new NotFoundException(`Account With Email Address ${email} was not found`);
+    return result;
+  }
+
+   async findByEmailWithPassword(email: string): Promise<User> {
+    email = email.toLowerCase();
+    const result = await this.userModel.findOne({
+      email
+    })
+    .select("+password");
+    if (!result) throw new NotFoundException(`Account With Email Address ${email} was not found`);
+    return result;
   }
 
   async patchById(id, dto: UpdateUserDto): Promise<User> {
@@ -87,8 +132,8 @@ export class UserService {
       }
     }
 
-    if(dto.class){
-      this.classService.addUserReference(dto.class,id);
+    if (dto.class) {
+      this.classService.addUserReference(dto.class, id);
     }
 
     return this.userModel.findOneAndUpdate({ _id: mongoose.Types.ObjectId(id) }, dto, {
@@ -104,14 +149,17 @@ export class UserService {
     });
   }
 
-  async addClassReference(userId,classId){
+  async addClassReference(userId, classId) {
     await this.userModel.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(userId) },
-      {$push:{
-        classes:classId
-      }},
+      {
+        $push: {
+          classes: classId
+        }
+      },
       {
         upsert: false,
       });
   }
+
 }

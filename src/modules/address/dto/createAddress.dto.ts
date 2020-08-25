@@ -1,5 +1,5 @@
 import {IsString, IsDefined, IsOptional } from "class-validator";
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class CreateAddressDto {
 
@@ -28,7 +28,7 @@ export class CreateAddressDto {
    @IsDefined()
    zipCode: string;
 
-   @ApiProperty()
+   @ApiPropertyOptional()
    @IsString()
    @IsOptional()
    appartmentNumber?:string;

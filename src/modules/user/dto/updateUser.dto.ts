@@ -43,7 +43,7 @@ export class UpdateUserDto {
    @ApiPropertyOptional()
    @ValidateNested()
    @IsOptional()
-   address?:string|Address;
+   address?:Address|string;
 
    @ApiPropertyOptional()
    @ValidateNested()
