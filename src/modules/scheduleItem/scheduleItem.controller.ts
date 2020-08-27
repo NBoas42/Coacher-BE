@@ -12,6 +12,7 @@ export class ScheduleController {
   constructor(private readonly scheduleItemService: ScheduleItemService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ description: "Returns ScheduleItem Created in the Database" })
   create(@Body(new ValidationPipe()) createScheduleDto: CreateScheduleItemDto) {
     return this.scheduleItemService.create(createScheduleDto);

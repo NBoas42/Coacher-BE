@@ -31,6 +31,8 @@ export class UserController {
 
 
   @Get("/all")
+  @needsRoles("Admin")
+  @UseGuards(JwtAuthGuard,RolesGuard)
   @ApiOkResponse({ description: "Returns All Users in DataBase. !Need To Add Admin Permission Gaurd!" })
   getAllUsers() {
     return this.userService.findAll();
