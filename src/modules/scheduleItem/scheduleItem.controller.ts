@@ -34,6 +34,7 @@ export class ScheduleController {
   }
 
   @Patch("/:id")
+  @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ description: "Updates ScheduleItem With Given Id Updated with Dto Object" })
   patachScheduleItemById(
     @Param("id") id:string,
@@ -43,6 +44,7 @@ export class ScheduleController {
   }
 
   @Delete("/:id")
+  @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ description: "Deletes ScheduleItem with Given Id" })
   deleteScheduleItemById(
     @Param("id") id:string
