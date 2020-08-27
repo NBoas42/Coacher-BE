@@ -7,7 +7,7 @@ export class CreateUserDto {
    @ApiProperty()
    @IsEnum(USER_TYPE)
    @IsDefined()
-   type: USER_TYPE;
+   role: USER_TYPE[];
 
    @ApiProperty()
    @IsString()

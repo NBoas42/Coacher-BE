@@ -12,7 +12,7 @@ export enum USER_TYPE {
 
 export class User extends Document {
   @ApiProperty()
-  readonly type: USER_TYPE;
+  readonly role: USER_TYPE[];
   @ApiProperty()
   readonly firstName: string;
   @ApiProperty()

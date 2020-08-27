@@ -24,6 +24,7 @@ export class UserService {
   ) { }
 
   async create(dto: CreateUserDto): Promise<User> {
+  //TODO When User registers account return jwt instead of object so user is logged in upon completion of account creation.
     try {
       const userInsertObject = {
         ...dto,
@@ -111,7 +112,7 @@ export class UserService {
   }
 
   async patchById(id, dto: UpdateUserDto): Promise<User> {
-
+    //TODO Check if the user that is logged in is the user trying to patch, or is an admin
     if (dto.address) {
       //To Do Delete Previous Address if one previously Exists
       const createdAddress = await this.addressService.create(dto.address);
@@ -144,6 +145,7 @@ export class UserService {
   }
 
   async deleteById(id): Promise<User> {
+    //TODO Check if the user that is logged in is the user trying to delete, or is an admin
     return this.userModel.findOneAndDelete({
       _id: id
     });

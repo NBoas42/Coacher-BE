@@ -1,10 +1,13 @@
-import { Controller, Get, Post, Body, Param, Patch, Delete, Query} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Patch, Delete, Query, UseGuards} from '@nestjs/common';
 import { UserService } from './providers/user.service';
 import { CreateUserDto } from './dto/createUser.dto';
 import { ValidationPipe } from 'src/utils/validation.pipe';
 import { UpdateUserDto } from './dto/updateUser.dto';
 import { ApiOkResponse} from '@nestjs/swagger';
 import { User } from './model/user.class';
+import { needsRoles } from '../auth/decorator/roles.decorator';
+import { JwtAuthGuard } from '../auth/gaurds/jwt.gaurd';
+import { RolesGuard } from '../auth/gaurds/roles.gaurd';
 
 @Controller("user")
 export class UserController {
@@ -17,7 +20,8 @@ export class UserController {
   }
 
   @Get("/with_query")
-  @ApiOkResponse({ description: "Returns User Object Associated With Given Id" })
+  @UseGuards(JwtAuthGuard)
+  @ApiOkResponse({ description: "Returns User Object Associated With Given Search Params" })
   getUserByName(
     @Query() searchQuery:UpdateUserDto,
   ) {
@@ -25,12 +29,14 @@ export class UserController {
     return this.userService.findLikeName(firstName,lastName);
   }
 
+
   @Get("/all")
   @ApiOkResponse({ description: "Returns All Users in DataBase. !Need To Add Admin Permission Gaurd!" })
   getAllUsers() {
     return this.userService.findAll();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get("/:id")
   @ApiOkResponse({ description: "Returns User Object Associated With Given Id" })
   getUserById(
@@ -39,6 +45,8 @@ export class UserController {
     return this.userService.findById(id);
   }
 
+  @needsRoles("Admin")
+  @UseGuards(JwtAuthGuard,RolesGuard)
   @Get("/by_email/:email")
   @ApiOkResponse({ description: "Returns User Object Associated With Given Email" })
   getUserByEmail(
@@ -49,6 +57,7 @@ export class UserController {
   }
 
   @Patch("/:id")
+  @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ description: "Returns updated user object associated with given id and update dto" })
   patachUserById(
     @Param("id") id:string,
@@ -58,6 +67,7 @@ export class UserController {
   }
 
   @Delete("/:id")
+  @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ description: "Deletes the user with given id" })
   deleteUserById(
     @Param("id") id:string
