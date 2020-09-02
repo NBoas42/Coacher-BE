@@ -7,6 +7,7 @@ import { ApiOkResponse } from '@nestjs/swagger';
 import { needsRoles } from '../auth/decorator/roles.decorator';
 import { JwtAuthGuard } from '../auth/gaurds/jwt.gaurd';
 import { RolesGuard } from '../auth/gaurds/roles.gaurd';
+import { USER_ROLES } from '../user/model/user.class';
 
 @Controller("class")
 export class ClassController {
@@ -20,7 +21,7 @@ export class ClassController {
   }
 
   @Get("/all")
-  @needsRoles("Admin")
+  @needsRoles(USER_ROLES.ADMIN)
   @UseGuards(JwtAuthGuard,RolesGuard)
   @ApiOkResponse({ description: "Returns All Class" })
   getAllClass() {

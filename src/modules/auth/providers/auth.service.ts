@@ -5,6 +5,7 @@ import * as bcrypt from "bcrypt";
 import { UserService } from 'src/modules/user/providers/user.service';
 import { LoginUserDto } from 'src/modules/auth/dto/loginUser.dto';
 
+
 @Injectable()
 export class AuthService {
 

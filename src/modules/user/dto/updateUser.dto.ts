@@ -1,14 +1,14 @@
-import { USER_TYPE } from "../model/user.class";
+import { USER_ROLES } from "../model/user.class";
 import { IsString, IsEnum, IsOptional, IsEmail, ValidateNested } from "class-validator";
 import { Address } from "src/modules/address/model/address.class";
 import { ScheduleItem } from "src/modules/scheduleItem/model/scheduleItem.class";
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { ApiPropertyOptional } from "@nestjs/swagger";
 
 export class UpdateUserDto {
    @ApiPropertyOptional()
-   @IsEnum(USER_TYPE)
+   @IsEnum(USER_ROLES)
    @IsOptional()
-   type?: USER_TYPE;
+   type?: USER_ROLES;
 
    @ApiPropertyOptional()
    @IsString()

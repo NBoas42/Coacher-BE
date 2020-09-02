@@ -6,6 +6,7 @@ import { UpdateAddressDto } from './dto/updateAddress.dto';
 import { JwtAuthGuard } from '../auth/gaurds/jwt.gaurd';
 import { needsRoles } from '../auth/decorator/roles.decorator';
 import { RolesGuard } from '../auth/gaurds/roles.gaurd';
+import { USER_ROLES } from '../user/model/user.class';
 
 @Controller("address")
 export class AddressController {
@@ -18,7 +19,7 @@ export class AddressController {
   }
 
   @Get("/all")
-  @needsRoles("Admin")
+  @needsRoles(USER_ROLES.ADMIN)
   @UseGuards(JwtAuthGuard,RolesGuard)
   getAllUsers() {
     return this.AddressService.findAll();

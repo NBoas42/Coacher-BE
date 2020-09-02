@@ -4,7 +4,7 @@ import { CreateUserDto } from './dto/createUser.dto';
 import { ValidationPipe } from 'src/utils/validation.pipe';
 import { UpdateUserDto } from './dto/updateUser.dto';
 import { ApiOkResponse} from '@nestjs/swagger';
-import { User } from './model/user.class';
+import { User, USER_ROLES } from './model/user.class';
 import { needsRoles } from '../auth/decorator/roles.decorator';
 import { JwtAuthGuard } from '../auth/gaurds/jwt.gaurd';
 import { RolesGuard } from '../auth/gaurds/roles.gaurd';
@@ -31,7 +31,7 @@ export class UserController {
 
 
   @Get("/all")
-  @needsRoles("Admin")
+  @needsRoles(USER_ROLES.ADMIN)
   @UseGuards(JwtAuthGuard,RolesGuard)
   @ApiOkResponse({ description: "Returns All Users in DataBase. !Need To Add Admin Permission Gaurd!" })
   getAllUsers() {
@@ -47,7 +47,7 @@ export class UserController {
     return this.userService.findById(id);
   }
 
-  @needsRoles("Admin")
+  @needsRoles(USER_ROLES.ADMIN)
   @UseGuards(JwtAuthGuard,RolesGuard)
   @Get("/by_email/:email")
   @ApiOkResponse({ description: "Returns User Object Associated With Given Email" })

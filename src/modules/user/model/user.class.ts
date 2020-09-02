@@ -4,7 +4,7 @@ import { ScheduleItem } from 'src/modules/scheduleItem/model/scheduleItem.class'
 import { Class } from 'src/modules/class/model/class.class';
 import { ApiProperty } from '@nestjs/swagger';
 
-export enum USER_TYPE {
+export enum USER_ROLES {
   COACH="COACH",
   COACHEE="COACHEE",
   ADMIN="ADMIN",
@@ -12,7 +12,7 @@ export enum USER_TYPE {
 
 export class User extends Document {
   @ApiProperty()
-  readonly role: USER_TYPE[];
+  readonly role: USER_ROLES[];
   @ApiProperty()
   readonly firstName: string;
   @ApiProperty()
