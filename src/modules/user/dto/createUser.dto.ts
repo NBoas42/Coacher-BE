@@ -1,13 +1,13 @@
-import { USER_TYPE } from "../model/user.class";
+import { USER_ROLES } from "../model/user.class";
 import { IsEnum, IsString, IsDefined, IsOptional, ValidateNested } from "class-validator";
 import { Address } from "src/modules/address/model/address.class";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateUserDto {
    @ApiProperty()
-   @IsEnum(USER_TYPE)
+   @IsEnum(USER_ROLES)
    @IsDefined()
-   type: USER_TYPE;
+   role: USER_ROLES[];
 
    @ApiProperty()
    @IsString()
@@ -18,6 +18,11 @@ export class CreateUserDto {
    @IsString()
    @IsDefined()
    lastName:string;
+
+   @ApiProperty()
+   @IsString()
+   @IsDefined()
+   password:string;
 
    @ApiProperty()
    @IsString()

@@ -1,19 +1,24 @@
 import * as mongoose from 'mongoose';
 
 export const UserSchema = new mongoose.Schema({
-   type: String,
+   role: [String],
    firstName: String,
    lastName:String,
-   email: {
-      type: String,
-      unique:true
-   },
    phoneNumber:String,
    website:String,
    about:String,
+   password:{
+      type:String,
+      select: false
+   },
+   email: {
+      type: String,
+      unique:true,
+      lowercase: true,
+   },
    address:{
       type: mongoose.Schema.Types.ObjectId,
-      ref:'Address'
+      ref:'Address',
    },
    scheduleItems:[{
       type: mongoose.Schema.Types.ObjectId,
