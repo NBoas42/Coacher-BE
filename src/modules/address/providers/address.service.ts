@@ -1,8 +1,9 @@
 import { Model } from 'mongoose';
-import { Injectable} from '@nestjs/common';
-import { Address } from '../model/address.interface';
+import { Injectable, BadRequestException, HttpException, HttpStatus} from '@nestjs/common';
+import { Address } from '../model/address.class';
 import { CreateAddressDto } from '../dto/createAddress.dto';
 import { InjectModel } from '@nestjs/mongoose';
+import { AddressController } from '../address.controller';
 
 @Injectable()
 export class AddressService {
@@ -40,5 +41,14 @@ export class AddressService {
     return this.AddressModel.findOneAndDelete({
       _id:id
     });
+  }
+
+  validateAddress(address:Address){
+    if(!(address.city ||
+        address.country ||
+        address.state|| 
+        address.streetAddress|| 
+        address.zipCode)) throw new HttpException('BAD_REQUEST: Address Not Valid', HttpStatus.BAD_REQUEST);
+    return true
   }
 }
