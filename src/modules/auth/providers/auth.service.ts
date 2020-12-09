@@ -32,7 +32,6 @@ export class AuthService {
         return bcrypt.hash(password,12);//A number is used for salt instead of a string to go through 12 random salt generatations
     }
 
-
     /**
      * BCrypt wrapper function to check if hashed password matches the plaint text password.
      * @param passwordPlaintText Plain Text Password
@@ -60,7 +59,6 @@ export class AuthService {
         }
       }
     
-
       /**
        * This function checks if the given password matches the password of the 
        * user with the given email.

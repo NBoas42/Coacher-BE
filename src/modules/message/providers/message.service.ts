@@ -25,7 +25,7 @@ export class MessageService {
   }
 
   async patchById(id, dto):Promise<Message>{
-    let messageToUpdate =  await this.messageModel.findById(id).exec();
+    const messageToUpdate =  await this.messageModel.findById(id).exec();
     Object.keys(dto).forEach(key =>{
       messageToUpdate[key] = dto[key];
     });

@@ -22,13 +22,14 @@ export class ConversationService {
   async findById(id): Promise<Conversation[]> {
     return this.conversationModel.findById(id);
   }
+  
   async findAll(): Promise<Conversation[]> {
     return this.conversationModel.find();
   }
 
   //update (patchid)
   async patchById(id, dto):Promise<Conversation>{
-    let conversationToUpdate =  await this.conversationModel.findById(id).exec();
+    const conversationToUpdate =  await this.conversationModel.findById(id).exec();
     Object.keys(dto).forEach(key =>{
       conversationToUpdate[key] = dto[key];
     });
