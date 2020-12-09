@@ -3,6 +3,7 @@ import { ConversationService } from './providers/conversation.service';
 import { CreateConversationDto } from './dto/createConversation.dto';
 import { ValidationPipe } from 'src/utils/validation.pipe';
 import { UpdateConversationDto } from './dto/updateConversation.dto';
+import { AddMessageDto } from './dto/addMessage.dto';
 
 
 @Controller ("conversation")
@@ -23,13 +24,27 @@ deleteConversationById(
   return this.conversationService.findById(id);
 }
 
-//update
+
 @Patch("/:id")
 patachConversationById(
   @Param("id") id,
   @Body(new ValidationPipe()) dto: UpdateConversationDto,
 ){
   return this.conversationService.patchById(id,dto);
+}
+
+@Patch("/message/add_message")
+addMessageById(
+  @Body(new ValidationPipe()) dto: AddMessageDto,
+){
+  return this.conversationService.addMessage(dto);
+}
+
+@Patch("/message/remove_message")
+removeMessageById(
+  @Body(new ValidationPipe()) dto: UpdateConversationDto,
+){
+  return {};
 }
 
 //get

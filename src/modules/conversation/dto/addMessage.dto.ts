@@ -1,13 +1,17 @@
-
 import { IsEnum, IsString, IsDefined, IsOptional } from "class-validator";
 
-export class CreateMessageDto {
+
+export class AddMessageDto {
 
     @IsString()
     @IsDefined()
-    message_contents: string;
+    conversation: string;
 
     @IsString()
     @IsDefined()
     sender: string;
-}
+
+    @IsString()
+    @IsDefined()
+    message_contents: string;
+  }

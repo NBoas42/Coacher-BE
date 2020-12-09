@@ -4,12 +4,15 @@ import { Conversation } from '../model/conversation.interface';
 import { CreateConversationDto } from '../dto/createConversation.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from "mongoose"
+import { AddMessageDto } from '../dto/addMessage.dto';
+import { MessageService } from 'src/modules/message/providers/message.service';
 
 @Injectable()
 export class ConversationService {
   constructor(
     @InjectModel('Conversation')
     private conversationModel: Model<Conversation>,
+    private messageService: MessageService
   ) {}
 
   //create
@@ -34,6 +37,16 @@ export class ConversationService {
       conversationToUpdate[key] = dto[key];
     });
    return conversationToUpdate.save();
+  }
+
+  async addMessage(dto:AddMessageDto):Promise<Conversation>{
+    const conversationToUpdate =  await this.conversationModel.findById(dto.conversation).exec();
+    const createdMessage = await this.messageService.create({
+      message_contents: dto.message_contents,
+      sender: dto.sender
+    });
+    conversationToUpdate.messages.push(createdMessage._id);
+   return conversationToUpdate.save(conversationToUpdate);
   }
 
   //delete
