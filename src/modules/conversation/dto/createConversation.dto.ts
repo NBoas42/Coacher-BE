@@ -10,5 +10,9 @@ export class CreateConversationDto {
   @IsString()
   @IsDefined()
   subject: string;
+
+  @IsString()
+  @IsDefined()
+  owner:string|any;
  
   }

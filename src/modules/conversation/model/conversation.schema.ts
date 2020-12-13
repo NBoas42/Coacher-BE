@@ -10,10 +10,12 @@ export const ConversationSchema = new mongoose.Schema({
   participants: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+    default:[]
   }],
   messages: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Message',
+    default:[]
   }],
 },
   {

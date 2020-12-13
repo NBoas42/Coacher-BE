@@ -4,6 +4,9 @@ import { CreateConversationDto } from './dto/createConversation.dto';
 import { ValidationPipe } from 'src/utils/validation.pipe';
 import { UpdateConversationDto } from './dto/updateConversation.dto';
 import { AddMessageDto } from './dto/addMessage.dto';
+import { RemoveMessageDto } from './dto/removeMessage.dto';
+import { AddUserDto } from './dto/addUser.dto';
+import { RemoveUserDto } from './dto/removeUser.dto';
 
 
 @Controller ("conversation")
@@ -24,15 +27,6 @@ deleteConversationById(
   return this.conversationService.findById(id);
 }
 
-
-@Patch("/:id")
-patachConversationById(
-  @Param("id") id,
-  @Body(new ValidationPipe()) dto: UpdateConversationDto,
-){
-  return this.conversationService.patchById(id,dto);
-}
-
 @Patch("/message/add_message")
 addMessageById(
   @Body(new ValidationPipe()) dto: AddMessageDto,
@@ -42,9 +36,33 @@ addMessageById(
 
 @Patch("/message/remove_message")
 removeMessageById(
+  @Body(new ValidationPipe()) dto: RemoveMessageDto,
+){
+  return this.conversationService.removeMessage(dto);
+}
+
+
+@Patch("/add_user")
+addUserById(
+  @Body(new ValidationPipe()) dto: AddUserDto,
+){
+  return this.conversationService.addUser(dto);
+}
+
+@Patch("/remove_user")
+removeUserById(
+  @Body(new ValidationPipe()) dto: RemoveUserDto,
+){
+  return this.conversationService.removeUser(dto);
+}
+
+
+@Patch("/:id")
+patachConversationById(
+  @Param("id") id,
   @Body(new ValidationPipe()) dto: UpdateConversationDto,
 ){
-  return {};
+  return this.conversationService.patchById(id,dto);
 }
 
 //get

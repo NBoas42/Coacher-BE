@@ -1,7 +1,7 @@
 import { IsEnum, IsString, IsDefined, IsOptional } from "class-validator";
 
 
-export class AddMessageDto {
+export class AddUserDto {
 
     @IsString()
     @IsDefined()
@@ -9,9 +9,5 @@ export class AddMessageDto {
 
     @IsString()
     @IsDefined()
-    sender: string;
-
-    @IsString()
-    @IsDefined()
-    messageContents: string;
+    user: string;
   }
