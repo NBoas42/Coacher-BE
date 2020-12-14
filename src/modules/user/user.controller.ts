@@ -58,6 +58,26 @@ export class UserController {
     return this.userService.findByEmail(email);
   }
 
+  @Patch("/send_friend_request")
+  @UseGuards(JwtAuthGuard)
+  @ApiOkResponse({ description: "Returns updated user object associated with given id and update dto" })
+  sendFriendRequest(
+    @Param("id") id:string,
+    @Body(new ValidationPipe()) dto: UpdateUserDto,
+  ):Promise<User>{
+    return this.userService.patchById(id,dto);
+  }
+
+  @Patch("/accept_friend_request")
+  @UseGuards(JwtAuthGuard)
+  @ApiOkResponse({ description: "Returns updated user object associated with given id and update dto" })
+  acceptFriendRequest(
+    @Param("id") id:string,
+    @Body(new ValidationPipe()) dto: UpdateUserDto,
+  ):Promise<User>{
+    return this.userService.patchById(id,dto);
+  }
+
   @Patch("/:id")
   @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ description: "Returns updated user object associated with given id and update dto" })
