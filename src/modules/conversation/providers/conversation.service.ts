@@ -9,6 +9,7 @@ import { RemoveMessageDto } from '../dto/removeMessage.dto';
 import { CreateMessageDto } from 'src/modules/message/dto/createMessage.dto';
 import { AddUserDto } from '../dto/addUser.dto';
 import { RemoveUserDto } from '../dto/removeUser.dto';
+const  mqtt = require('mqtt');
 
 @Injectable()
 export class ConversationService {
@@ -50,6 +51,8 @@ export class ConversationService {
       messageContents: dto.messageContents,
       sender: dto.sender
     });
+    const client  = mqtt.connect('mqtt://broker.emqx.io');
+    client.publish(`Coacher/Conversation/${dto.conversation}`,JSON.stringify(createdMessage));
     conversationToUpdate.messages.push(createdMessage._id);
     await conversationToUpdate.save();
     return await this.conversationModel.findById(dto.conversation).populate({path: 'messages'});
